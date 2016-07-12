@@ -23,23 +23,17 @@ class Tablero
 
 	def colocar_ficha ( x, y, jugador)
 		size = @tablero.length
-		puts "aqui"
 		if x < size && y < size
-			if @tablero[x][y] == nil
-				@tablero[x][y] = jugador
-				@casillas_disponibles -= 1
-				if @casillas_disponibles == 0
-					@empate = true
-				end
-
+			if @tablero[y][x] == nil
+				@tablero[y][x] = jugador
 				return [true,juego_terminado?(x, y, jugador)]
 			else
 				puts 'Lo siento esa casilla ya esta ocupada'
-				return false
+				return [false,nil]
 			end
 		else
 			puts 'Lo siento la casilla indicada no existe'
-			return false
+			return [false,nil]
 		end
 	end
 
@@ -56,12 +50,21 @@ class Tablero
 		return false
 	end
 
-	def comprobar_empate
-		movimientos = @tablero.reject { |casilla|
-			casilla.empty?
-		}
+	def contar_movimientos
+		contador = 0
+		@tablero.each do |fila|
+			fila.each do |columna|
+				if columna != nil
+					contador += 1
+				end
+			end
+		end
+		return contador
+	end
 
-		if movimientos = (@tablero.length ** 2)
+	def comprobar_empate
+		movimientos = contar_movimientos()
+		if movimientos == (@tablero.length ** 2)
 			return true
 		end
 		return false
@@ -75,8 +78,9 @@ class Tablero
 				continuar =  true
 				i = 1
 				while continuar
-					if (x - i) > 0 && (y - i) > 0
-						if @tablero[x-i][y-i] == jugador
+					if (x - i) >= 0 && (y - i) >= 0
+						puts 1
+						if @tablero[y-i][x-i] == jugador
 							contador += 1
 							if contador == @tablero.length
 								juego_ganado = true
@@ -97,8 +101,9 @@ class Tablero
 				continuar =  true
 				i = 1
 				while continuar
-					if (y - i) > 0
-						if @tablero[x][y-i] == jugador
+					if (y - i) >= 0
+						puts 2
+						if @tablero[y-i][x] == jugador
 							contador += 1
 							if contador == @tablero.length
 								juego_ganado = true
@@ -119,8 +124,9 @@ class Tablero
 				continuar =  true
 				i = 1
 				while continuar
-					if (x + i) < size && (y + i) < size
-						if @tablero[x+i][y+i] == jugador
+					if (x + i) < size && (y - i) >= 0
+						puts 3
+						if @tablero[y-i][x+i] == jugador
 							contador += 1
 							if contador == @tablero.length
 								juego_ganado = true
@@ -141,8 +147,9 @@ class Tablero
 				continuar =  true
 				i = 1
 				while continuar
-					if (x + i) > 0
-						if @tablero[x+i][y] == jugador
+					if (x + i) < size
+						puts 4
+						if @tablero[y][x+i] == jugador
 							contador += 1
 							if contador == @tablero.length
 								juego_ganado = true
@@ -163,10 +170,11 @@ class Tablero
 				continuar =  true
 				i = 1
 				while continuar
-					if (x + i) < @tablero.length && (y + i) < @tablero.length
-						if @tablero[x+i][y+i] == jugador
+					if (x + i) < size && (y + i) < size
+						puts 5
+						if @tablero[y+i][x+i] == jugador
 							contador += 1
-							if contador == @tablero.length
+							if contador == size
 								juego_ganado = true
 							end
 						else
@@ -185,10 +193,11 @@ class Tablero
 				continuar =  true
 				i = 1
 				while continuar
-					if (y + i) < @tablero.length
-						if @tablero[x][y+i] == jugador
+					if (y + i) < size
+						puts 6
+						if @tablero[y+i][x] == jugador
 							contador += 1
-							if contador == @tablero.length
+							if contador == size
 								juego_ganado = true
 							end
 						else
@@ -207,10 +216,11 @@ class Tablero
 			continuar =  true
 				i = 1
 				while continuar
-					if (x - i) > 0 && (y + i) < @tablero.length
-						if @tablero[x-i][y+i] == jugador
+					if (x - i) >= 0 && (y + i) < size
+						puts 7
+						if @tablero[y+i][x-i] == jugador
 							contador += 1
-							if contador == @tablero.length
+							if contador == size
 								juego_ganado = true
 							end
 						else
@@ -229,10 +239,11 @@ class Tablero
 				continuar =  true
 				i = 1
 				while continuar
-					if (x - i) > 0
-						if @tablero[x-i][y] == jugador
+					if (x - i) >= 0
+						puts 8
+						if @tablero[y][x-i] == jugador
 							contador += 1
-							if contador == @tablero.length
+							if contador == size
 								juego_ganado = true
 							end
 						else
