@@ -145,15 +145,14 @@ class Tablero
 	def comprobar_ganador(x, y, jugador, casilla, contador)
 		size = @tablero.length
 		juego_ganado = false
-		juego_ganado = casilla_1(x, y, jugador, contador)
-		juego_ganado = casilla_2(x, y, jugador, contador) if !juego_ganado
-		juego_ganado = casilla_3(x, y, jugador, contador) if !juego_ganado
-		juego_ganado = casilla_4(x, y, jugador, contador) if !juego_ganado
-		juego_ganado = casilla_5(x, y, jugador, contador) if !juego_ganado
-		juego_ganado = casilla_6(x, y, jugador, contador) if !juego_ganado
-		juego_ganado = casilla_7(x, y, jugador, contador) if !juego_ganado
-		juego_ganado = casilla_8(x, y, jugador, contador) if !juego_ganado
+		juego_ganado = casilla_1(x, y, jugador, 1)
+		juego_ganado = casilla_2(x, y, jugador, 1) if !juego_ganado
+		juego_ganado = casilla_3(x, y, jugador, 1) if !juego_ganado
+		juego_ganado = casilla_4(x, y, jugador, 1) if !juego_ganado
+		juego_ganado = casilla_5(x, y, jugador, 1) if !juego_ganado
+		juego_ganado = casilla_6(x, y, jugador, 1) if !juego_ganado
+		juego_ganado = casilla_7(x, y, jugador, 1) if !juego_ganado
+		juego_ganado = casilla_8(x, y, jugador, 1) if !juego_ganado
 		return juego_ganado
 	end
-
 end

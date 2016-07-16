@@ -7,9 +7,6 @@ fin = false
 while (fin != true)
 	fin = jugadorX.mover(tab)
 	tab.recorrer_tablero
-	if fin
-		break
-	end
-	fin = jugadorO.mover(tab)
+	fin = jugadorO.mover(tab) if !fin
 	tab.recorrer_tablero
 end
