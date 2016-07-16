@@ -54,9 +54,7 @@ class Tablero
 		contador = 0
 		@tablero.each do |fila|
 			fila.each do |columna|
-				if columna != nil
-					contador += 1
-				end
+				contador += 1 if columna != nil
 			end
 		end
 		return contador
@@ -70,202 +68,91 @@ class Tablero
 		return false
 	end
 
-	def comprobar_ganador( x, y, jugador, casilla, contador)
+	def casilla_1(x, y, jugador, contador)
+		i = 1
+		while ((x - i) >= 0 && (y - i) >= 0 && (@tablero.length != contador))
+			contador += 1 if @tablero[y-i][x-i] == jugador
+			i += 1
+		end
+		@tablero.length == contador ? true : casilla_5(x, y, jugador, contador)
+	end
+
+	def casilla_2(x, y, jugador, contador)
+		i = 1
+		while ((y - i) >= 0 && (@tablero.length != contador))
+			contador += 1 if @tablero[y-i][x] == jugador
+			i += 1
+		end
+		@tablero.length == contador ? true : casilla_6(x, y, jugador, contador)
+	end
+
+	def casilla_3(x, y, jugador, contador)
+		i = 1
+		while ((x + i) < @tablero.length && (y - i) >= 0 &&(@tablero.length != contador))
+			contador += 1 if @tablero[y-i][x+i] == jugador
+			i += 1
+		end
+		@tablero.length == contador ? true : casilla_7(x, y, jugador, contador)
+	end
+
+	def casilla_4(x, y, jugador, contador)
+		i = 1
+		puts 'Entre al def 4'
+		while ((x + i) < @tablero.length && (@tablero.length != contador))
+			contador += 1 if @tablero[y][x+i] == jugador
+			i += 1
+		end
+		@tablero.length == contador ? true : casilla_8(x, y, jugador, contador)
+	end
+
+	def casilla_5(x, y, jugador, contador)
+		i = 1
+		while ((x + i) < @tablero.length && (y + i) < @tablero.length && (@tablero.length != contador))
+			contador += 1 if @tablero[y+i][x+i] == jugador
+			i += 1
+		end
+		true if @tablero.length == contador
+	end
+
+	def casilla_6(x, y, jugador, contador)
+		i = 1
+		while ((x + i) < @tablero.length && (y + i) < @tablero.length && (@tablero.length != contador))
+			contador += 1 if @tablero[y+i][x+i] == jugador
+			i += 1
+		end
+		true if @tablero.length == contador
+	end
+
+	def casilla_7(x, y, jugador, contador)
+		i = 1
+		while ((x - i) >= 0 && (y + i) < @tablero.length && (@tablero.length != contador))
+			contador += 1 if @tablero[y+i][x-i] == jugador
+			i += 1
+		end
+		true if @tablero.length == contador
+	end
+
+	def casilla_8(x, y, jugador, contador)
+		i = 1
+		while ((x - i) >= 0 && (@tablero.length != contador))
+			contador += 1 if @tablero[y][x-i] == jugador
+			puts "Contador = #{contador}"
+			i += 1
+		end
+		true if @tablero.length == contador
+	end
+
+	def comprobar_ganador(x, y, jugador, casilla, contador)
 		size = @tablero.length
 		juego_ganado = false
-		case casilla
-			when 1
-				continuar =  true
-				i = 1
-				while continuar
-					if (x - i) >= 0 && (y - i) >= 0
-						if @tablero[y-i][x-i] == jugador
-							contador += 1
-							if contador == @tablero.length
-								juego_ganado = true
-								continuar = false
-							end
-						else
-							continuar = false
-						end
-					else
-						puts "Compruebo ganador #{contador}"
-						comprobar_ganador(x, y, jugador, 5, contador)
-						puts "ya comprobe #{contador}"
-						continuar = false
-					end
-					i += 1
-				end
-				if !juego_ganado
-					comprobar_ganador(x, y, jugador, casilla += 1, contador)
-				end
-
-			when 2
-				continuar =  true
-				i = 1
-				while continuar
-					if (y - i) >= 0
-						if @tablero[y-i][x] == jugador
-							contador += 1
-							if contador == @tablero.length
-								juego_ganado = true
-								continuar = false
-							end
-						else
-							comprobar_ganador(x, y, jugador, 6, contador)
-							continuar = false
-						end
-					else
-						continuar = false
-					end
-					i += 1
-				end
-				if !juego_ganado
-					comprobar_ganador(x, y, jugador, casilla += 1, contador)
-				end
-
-			when 3
-				continuar =  true
-				i = 1
-				while continuar
-					if (x + i) < size && (y - i) >= 0
-						if @tablero[y-i][x+i] == jugador
-							contador += 1
-							if contador == @tablero.length
-								juego_ganado = true
-								continuar = false
-							end
-						else
-							comprobar_ganador(x, y, jugador, 7, contador)
-							continuar = false
-						end
-					else
-						continuar = false
-					end
-					i += 1
-				end
-				if !juego_ganado
-					comprobar_ganador(x, y, jugador, casilla += 1, contador)
-				end
-
-			when 4
-				continuar =  true
-				i = 1
-				while continuar
-					if (x + i) < size
-						if @tablero[y][x+i] == jugador
-							contador += 1
-							if contador == @tablero.length
-								juego_ganado = true
-								continuar = false
-							end
-						else
-							comprobar_ganador(x, y, jugador, 8, contador)
-							continuar = false
-						end
-					else
-						continuar = false
-					end
-					i += 1
-				end
-				if !juego_ganado
-					comprobar_ganador(x, y, jugador, casilla += 1, contador)
-				end
-
-			when 5
-				continuar =  true
-				i = 1
-				while continuar
-					if (x + i) < size && (y + i) < size
-						puts 'Entre al if del while'
-						puts @tablero[y+i][x+i]
-						if @tablero[y+i][x+i] == jugador
-							puts 'Entre al segundo if del while'
-							contador += 1
-							puts "#{contador}"
-							if contador == size
-								juego_ganado = true
-								continuar = false
-							end
-						else
-							continuar = false
-						end
-					else
-						continuar = false
-					end
-					i += 1
-				end
-				if !juego_ganado
-					comprobar_ganador(x, y, jugador, casilla += 1, contador)
-				end
-
-			when 6
-				continuar =  true
-				i = 1
-				while continuar
-					if (y + i) < size
-						if @tablero[y+i][x] == jugador
-							contador += 1
-							if contador == size
-								juego_ganado = true
-								continuar = false
-							end
-						else
-							continuar = false
-						end
-					else
-						continuar = false
-					end
-					i += 1
-				end
-				if !juego_ganado
-					comprobar_ganador(x, y, jugador, casilla += 1, contador)
-				end
-
-			when 7
-			continuar =  true
-				i = 1
-				while continuar
-					if (x - i) >= 0 && (y + i) < size
-
-						if @tablero[y+i][x-i] == jugador
-							contador += 1
-							if contador == size
-								juego_ganado = true
-								continuar = false
-							end
-						else
-							continuar = false
-						end
-					else
-						continuar = false
-					end
-					i += 1
-				end
-				if !juego_ganado
-					comprobar_ganador(x, y, jugador, casilla += 1, contador)
-				end
-
-			when 8
-				continuar =  true
-				i = 1
-				while continuar
-					if (x - i) >= 0
-						if @tablero[y][x-i] == jugador
-							contador += 1
-							if contador == size
-								juego_ganado = true
-								continuar = false
-							end
-						else
-							continuar = false
-						end
-					else
-						continuar = false
-					end
-					i += 1
-				end
-		end
+		juego_ganado = casilla_1(x, y, jugador, contador)
+		juego_ganado = casilla_2(x, y, jugador, contador) if !juego_ganado
+		juego_ganado = casilla_3(x, y, jugador, contador) if !juego_ganado
+		juego_ganado = casilla_4(x, y, jugador, contador) if !juego_ganado
+		juego_ganado = casilla_5(x, y, jugador, contador) if !juego_ganado
+		juego_ganado = casilla_6(x, y, jugador, contador) if !juego_ganado
+		juego_ganado = casilla_7(x, y, jugador, contador) if !juego_ganado
+		juego_ganado = casilla_8(x, y, jugador, contador) if !juego_ganado
 		return juego_ganado
 	end
 
