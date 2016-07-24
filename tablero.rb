@@ -6,19 +6,8 @@ class Tablero
 		@casillas_disponibles = size * size
 	end
 
-	def recorrer_tablero
-		size = @tablero.length
-		x = 0
-		y = 0
-		while y < size
-			while x < size
-				print @tablero[y][x] || '-'
-				x += 1
-			end
-			x = 0
-			y += 1
-			puts ''
-		end
+	def obtener_tablero
+		return @tablero
 	end
 
 	def colocar_ficha ( x, y, jugador)
@@ -26,25 +15,21 @@ class Tablero
 		if x < size && y < size
 			if @tablero[y][x] == nil
 				@tablero[y][x] = jugador
-				return [true,juego_terminado?(x, y, jugador)]
+				return [true, juego_terminado?(x, y, jugador)]
 			else
-				puts 'Lo siento esa casilla ya esta ocupada'
-				return [false,nil]
+				return [false, nil]
 			end
 		else
-			puts 'Lo siento la casilla indicada no existe'
-			return [false,nil]
+			return [false, nil]
 		end
 	end
 
 	def juego_terminado?(x, y, jugador)
-		if comprobar_ganador(x, y, jugador,1 ,1)
-			puts "Fin del juego victoria del jugador #{jugador}"
-			return true
+		if comprobar_ganador(x, y, jugador,1)
+			return "Fin de juego victoria de jugador #{jugador}"
 		else
 			if comprobar_empate()
-				puts 'Fin del juego han empatado'
-				return true
+				return 'Fin del juego han empatado'
 			end
 		end
 		return false
@@ -82,8 +67,8 @@ class Tablero
 		while ((y - i) >= 0 && (@tablero.length != contador))
 			contador += 1 if @tablero[y-i][x] == jugador
 			i += 1
-		end
-		@tablero.length == contador ? true : casilla_6(x, y, jugador, contador)
+    end
+		@tablero.length === contador ? true : casilla_6(x, y, jugador, contador)
 	end
 
 	def casilla_3(x, y, jugador, contador)
@@ -97,11 +82,10 @@ class Tablero
 
 	def casilla_4(x, y, jugador, contador)
 		i = 1
-		puts 'Entre al def 4'
 		while ((x + i) < @tablero.length && (@tablero.length != contador))
 			contador += 1 if @tablero[y][x+i] == jugador
 			i += 1
-		end
+    end
 		@tablero.length == contador ? true : casilla_8(x, y, jugador, contador)
 	end
 
@@ -116,10 +100,10 @@ class Tablero
 
 	def casilla_6(x, y, jugador, contador)
 		i = 1
-		while ((x + i) < @tablero.length && (y + i) < @tablero.length && (@tablero.length != contador))
-			contador += 1 if @tablero[y+i][x+i] == jugador
+		while ((y + i) < @tablero.length && (@tablero.length != contador))
+			contador += 1 if @tablero[y+i][x] == jugador
 			i += 1
-		end
+    end
 		true if @tablero.length == contador
 	end
 
@@ -136,23 +120,22 @@ class Tablero
 		i = 1
 		while ((x - i) >= 0 && (@tablero.length != contador))
 			contador += 1 if @tablero[y][x-i] == jugador
-			puts "Contador = #{contador}"
 			i += 1
 		end
 		true if @tablero.length == contador
 	end
 
-	def comprobar_ganador(x, y, jugador, casilla, contador)
+	def comprobar_ganador(x, y, jugador, contador)
 		size = @tablero.length
 		juego_ganado = false
 		juego_ganado = casilla_1(x, y, jugador, 1)
 		juego_ganado = casilla_2(x, y, jugador, 1) if !juego_ganado
-		juego_ganado = casilla_3(x, y, jugador, 1) if !juego_ganado
-		juego_ganado = casilla_4(x, y, jugador, 1) if !juego_ganado
-		juego_ganado = casilla_5(x, y, jugador, 1) if !juego_ganado
-		juego_ganado = casilla_6(x, y, jugador, 1) if !juego_ganado
-		juego_ganado = casilla_7(x, y, jugador, 1) if !juego_ganado
-		juego_ganado = casilla_8(x, y, jugador, 1) if !juego_ganado
+    juego_ganado = casilla_3(x, y, jugador, 1) if !juego_ganado
+    juego_ganado = casilla_4(x, y, jugador, 1) if !juego_ganado
+    juego_ganado = casilla_5(x, y, jugador, 1) if !juego_ganado
+    juego_ganado = casilla_6(x, y, jugador, 1) if !juego_ganado
+    juego_ganado = casilla_7(x, y, jugador, 1) if !juego_ganado
+    juego_ganado = casilla_8(x, y, jugador, 1) if !juego_ganado
 		return juego_ganado
 	end
 end
