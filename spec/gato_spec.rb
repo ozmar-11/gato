@@ -12,7 +12,8 @@ describe Gato do
 			@jugadorO.mover(@tablero, 1, 1)
 			@jugadorX.mover(@tablero, 0, 1)
 			@jugadorO.mover(@tablero, 2, 2)
-			expect(@jugadorX.mover(@tablero, 0, 2)).to be == [true,'Fin de juego victoria de jugador X']
+			@jugadorX.mover(@tablero, 0, 2)
+			expect(@tablero.obtener_ganador).to be == @jugadorX.get_jugador
 		end
 
 		it 'jugador O debe ganar en vertical' do
@@ -21,17 +22,19 @@ describe Gato do
 			@jugadorX.mover(@tablero, 2, 1)
 			@jugadorO.mover(@tablero, 0, 1)
 			@jugadorX.mover(@tablero, 1, 0)
-			expect(@jugadorO.mover(@tablero, 0, 2)).to be == [true, 'Fin de juego victoria de jugador O']
+			@jugadorO.mover(@tablero, 0, 2)
+			expect(@tablero.obtener_ganador).to be == @jugadorO.get_jugador
 		end
 	end
 
 	describe '3 en diagonal' do
-		it 'jugador X debe ganas el diagonal' do
+		it 'jugador X debe ganar el diagonal' do
 			@jugadorX.mover(@tablero, 0, 0)
 			@jugadorO.mover(@tablero, 0, 1)
 			@jugadorX.mover(@tablero, 1, 1)
 			@jugadorO.mover(@tablero, 0, 2)
-			expect(@jugadorX.mover(@tablero, 2, 2)).to be == [true,'Fin de juego victoria de jugador X']
+			@jugadorX.mover(@tablero, 2, 2)
+			expect(@tablero.obtener_ganador).to be == @jugadorX.get_jugador
 		end
 
 		it 'jugador O debe ganar en diagonal' do
@@ -40,7 +43,8 @@ describe Gato do
 			@jugadorX.mover(@tablero, 1, 2)
 			@jugadorO.mover(@tablero, 1, 1)
 			@jugadorX.mover(@tablero, 1, 0)
-			expect(@jugadorO.mover(@tablero, 2, 0)).to be == [true, 'Fin de juego victoria de jugador O']
+			@jugadorO.mover(@tablero, 2, 0)
+			expect(@tablero.obtener_ganador).to be == @jugadorO.get_jugador
 		end
 	end
 
@@ -50,7 +54,8 @@ describe Gato do
 			@jugadorO.mover(@tablero, 1, 0)
 			@jugadorX.mover(@tablero, 1, 1)
 			@jugadorO.mover(@tablero, 0, 0)
-			expect(@jugadorX.mover(@tablero, 2, 1)).to be == [true,'Fin de juego victoria de jugador X']
+			@jugadorX.mover(@tablero, 2, 1)
+			expect(@tablero.obtener_ganador).to be == @jugadorX.get_jugador
 		end
 
 		it 'jugador O debe ganar en horizontal' do
@@ -59,7 +64,8 @@ describe Gato do
 			@jugadorX.mover(@tablero, 1, 0)
 			@jugadorO.mover(@tablero, 1, 2)
 			@jugadorX.mover(@tablero, 0, 1)
-			expect(@jugadorO.mover(@tablero, 2, 2)).to be == [true, 'Fin de juego victoria de jugador O']
+			@jugadorO.mover(@tablero, 2, 2)
+			expect(@tablero.obtener_ganador).to be == @jugadorO.get_jugador
 		end
 	end
 
@@ -73,7 +79,8 @@ describe Gato do
 			@jugadorO.mover(@tablero, 2, 0)
 			@jugadorX.mover(@tablero, 0, 2)
 			@jugadorO.mover(@tablero, 1, 2)
-			expect(@jugadorX.mover(@tablero, 2, 2)).to be == [true, 'Fin del juego han empatado']
+			@jugadorX.mover(@tablero, 2, 2)
+			expect(@tablero.comprobar_empate).to be == true
 		end
 	end
 end

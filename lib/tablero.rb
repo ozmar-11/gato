@@ -1,9 +1,11 @@
 class Tablero
+
 	def initialize(size)
 		@tablero = Array.new(size) {
 			Array.new(size)
 		}
 		@casillas_disponibles = size * size
+		@ganador = false
 	end
 
 	def obtener_tablero
@@ -15,22 +17,36 @@ class Tablero
 		if x < size && y < size
 			if @tablero[y][x] == nil
 				@tablero[y][x] = jugador
-				return [true, juego_terminado?(x, y, jugador)]
+				juego_terminado?(x, y, jugador)
+				return true
 			else
-				return [false, nil]
+				return false
 			end
 		else
-			return [false, nil]
+			return false
 		end
 	end
 
 	def juego_terminado?(x, y, jugador)
 		if comprobar_ganador(x, y, jugador,1)
-			return "Fin de juego victoria de jugador #{jugador}"
+			@ganador = jugador
+			true
 		else
 			if comprobar_empate()
-				return 'Fin del juego han empatado'
+				@ganador = false
 			end
+			false
+		end
+	end
+
+	def obtener_ganador
+		@ganador
+	end
+
+	def comprobar_empate
+		movimientos = contar_movimientos()
+		if movimientos == (@tablero.length ** 2)
+			return true
 		end
 		return false
 	end
@@ -45,12 +61,18 @@ class Tablero
 		return contador
 	end
 
-	def comprobar_empate
-		movimientos = contar_movimientos()
-		if movimientos == (@tablero.length ** 2)
-			return true
-		end
-		return false
+	def comprobar_ganador(x, y, jugador, contador)
+		size = @tablero.length
+		juego_ganado = false
+		juego_ganado = casilla_1(x, y, jugador, 1)
+		juego_ganado = casilla_2(x, y, jugador, 1) if !juego_ganado
+	    juego_ganado = casilla_3(x, y, jugador, 1) if !juego_ganado
+	    juego_ganado = casilla_4(x, y, jugador, 1) if !juego_ganado
+	    juego_ganado = casilla_5(x, y, jugador, 1) if !juego_ganado
+	    juego_ganado = casilla_6(x, y, jugador, 1) if !juego_ganado
+	    juego_ganado = casilla_7(x, y, jugador, 1) if !juego_ganado
+	    juego_ganado = casilla_8(x, y, jugador, 1) if !juego_ganado
+		return juego_ganado
 	end
 
 	def casilla_1(x, y, jugador, contador)
@@ -123,19 +145,5 @@ class Tablero
 			i += 1
 		end
 		true if @tablero.length == contador
-	end
-
-	def comprobar_ganador(x, y, jugador, contador)
-		size = @tablero.length
-		juego_ganado = false
-		juego_ganado = casilla_1(x, y, jugador, 1)
-		juego_ganado = casilla_2(x, y, jugador, 1) if !juego_ganado
-	    juego_ganado = casilla_3(x, y, jugador, 1) if !juego_ganado
-	    juego_ganado = casilla_4(x, y, jugador, 1) if !juego_ganado
-	    juego_ganado = casilla_5(x, y, jugador, 1) if !juego_ganado
-	    juego_ganado = casilla_6(x, y, jugador, 1) if !juego_ganado
-	    juego_ganado = casilla_7(x, y, jugador, 1) if !juego_ganado
-	    juego_ganado = casilla_8(x, y, jugador, 1) if !juego_ganado
-		return juego_ganado
 	end
 end
